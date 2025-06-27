@@ -51,16 +51,21 @@ module.exports.getUserProfile = async (req, res) => {
   return res.status(response.status).send(response)
 }
 
-module.exports.updateUserProfile = async (req, res) => {
+module.exports.updateUsername = async (req, res) => {
   let response = {}
 
   try {
-    const responseFromService = await userService.updateUserProfile(req)
+    // Vérifie que seul le username est présent dans le body
+    if (!req.body.username || Object.keys(req.body).length !== 1) {
+      throw new Error('Seul le champ username peut être modifié')
+    }
+
+    const responseFromService = await userService.updateUsername(req)
     response.status = 200
-    response.message = 'Successfully updated user profile data'
+    response.message = 'Username updated successfully'
     response.body = responseFromService
   } catch (error) {
-    console.log('Error in updateUserProfile - userController.js')
+    console.error('Error in updateUsername (userController.js)', error)
     response.status = 400
     response.message = error.message
   }

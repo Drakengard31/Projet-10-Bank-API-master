@@ -4,19 +4,20 @@ const userController = require('../controllers/userController')
 const tokenValidation = require('../middleware/tokenValidation')
 
 router.post('/signup', userController.createUser)
-
 router.post('/login', userController.loginUser)
 
+// Route pour récupérer le profil
 router.post(
-  '/profile',
-  tokenValidation.validateToken,
-  userController.getUserProfile
+    '/profile',
+    tokenValidation.validateToken,
+    userController.getUserProfile
 )
 
+// Route spécifique pour la mise à jour du username
 router.put(
-  '/profile',
-  tokenValidation.validateToken,
-  userController.updateUserProfile
+    '/profile/username',
+    tokenValidation.validateToken,
+    userController.updateUsername
 )
 
 module.exports = router

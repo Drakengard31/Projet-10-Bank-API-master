@@ -105,12 +105,14 @@ body {
 
 /* Hero section */
 .hero {
-  background: linear-gradient(135deg, #00bc77 0%, #0070f3 100%);
+  background-image: url('../public/img/bank-tree.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: white;
   padding: 100px 20px;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 
 .hero::before {
