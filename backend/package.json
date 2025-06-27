@@ -1,0 +1,27 @@
+{
+  "name": "argent-bank-api",
+  "version": "0.0.1",
+  "private": true,
+  "description": "API principale Argent Bank",
+  "main": "backend-server.js",
+  "scripts": {
+    "dev:backend": "nodemon backend-server.js",
+    "populate-db": "node scripts/populateDatabase.js",
+    "start:backend": "node backend-server.js",
+    "start:all": "concurrently \"npm run start:agency\" \"npm run start:backend\""
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.21",
+    "jsonwebtoken": "^8.5.1",
+    "bcrypt": "^5.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "yamljs": "^0.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "concurrently": "^7.6.0"
+  }
+}
