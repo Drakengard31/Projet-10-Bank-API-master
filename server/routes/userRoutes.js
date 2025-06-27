@@ -7,7 +7,7 @@ router.post('/signup', userController.createUser)
 router.post('/login', userController.loginUser)
 
 // Route pour récupérer le profil
-router.post(
+router.get(
     '/profile',
     tokenValidation.validateToken,
     userController.getUserProfile

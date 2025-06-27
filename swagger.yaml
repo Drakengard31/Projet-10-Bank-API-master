@@ -1,143 +1,139 @@
 swagger: '2.0'
 info:
-  title: Bank Argent API documentation
-  description: Contains all available API endpoints in this codebase
+  title: ArgentBank API
+  description: API pour l'application ArgentBank
   version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
 host: localhost:3001
 basePath: /api/v1
 schemes:
   - http
 paths:
-  /user/login:
-    post:
-      tags:
-        - User Module
-      summary: Login
-      description: API for Login
-      parameters:
-        - in: body
-          name: body
-          description: Login Payload
-          required: true
-          schema:
-            $ref: '#/definitions/Login'
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Login Successfully
-          schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
   /user/signup:
     post:
       tags:
-        - User Module
-      summary: Signup
-      description: API for Signup
+        - User
+      summary: Création d'un utilisateur
       parameters:
         - in: body
           name: body
-          description: Signup Payload
           required: true
           schema:
             $ref: '#/definitions/User'
-      produces:
-        - application/json
       responses:
         '200':
-          description: Signup Successfully
+          description: Utilisateur créé
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-  /user/profile:
+          description: Erreur de validation
+  /user/login:
     post:
-      security:
-        - Bearer: []
       tags:
-        - User Module
-      summary: User Profile API
-      description: API for fetching a user profile
+        - User
+      summary: Connexion utilisateur
       parameters:
-        - in: header
-          name: Authorization
-          description: Attach Bearer JWT token
-          required: true
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: User profile retrieved successully
-          schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-    put:
-      security:
-        - Bearer: []
-      tags:
-        - User Module
-      summary: User Profile API
-      description: API for updating a user profile
-      parameters:
-        - in: header
-          name: Authorization
-          description: Attach Bearer JWT token
-          required: true
         - in: body
           name: body
-          description: Update user profile attributes
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
-      produces:
-        - application/json
+            $ref: '#/definitions/Login'
       responses:
         '200':
-          description: User profile retrieved successully
+          description: Connexion réussie
+          schema:
+            $ref: '#/definitions/LoginResponse'
+  /user/profile:
+    get:
+      tags:
+        - User
+      summary: Récupère le profil utilisateur
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: Profil utilisateur
+          schema:
+            $ref: '#/definitions/UserProfile'
+    put:
+      tags:
+        - User
+      summary: Met à jour le username
+      security:
+        - Bearer: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateUsername'
+      responses:
+        '200':
+          description: Username mis à jour
           schema:
             $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
+
 definitions:
   User:
+    type: object
     properties:
       email:
         type: string
-        description: user email
+        example: user@example.com
       password:
         type: string
-        description: user password
+        example: password123
       firstName:
         type: string
-        description: user first name
+        example: John
       lastName:
         type: string
-        description: user last name
+        example: Doe
+      userName:
+        type: string
+        example: johndoe
+    required:
+      - email
+      - password
+      - firstName
+      - lastName
+      - userName
+
   Login:
+    type: object
     properties:
       email:
         type: string
-        description: user email
       password:
         type: string
-        description: user password
+
+  LoginResponse:
+    type: object
+    properties:
+      token:
+        type: string
+
+  UserProfile:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      userName:
+        type: string
+
+  UpdateUsername:
+    type: object
+    properties:
+      userName:
+        type: string
+    required:
+      - userName
+
   ApiResponse:
     type: object
     properties:
@@ -147,20 +143,9 @@ definitions:
         type: string
       body:
         type: object
-        properties:
-          id:
-            type: string
-          email:
-            type: string
-  LoginResponse:
-    type: object
-    properties:
-      token:
-        type: string
-  UserProfile:
-    type: object
-    properties:
-      firstName:
-        type: string
-      lastName:
-        type: string
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
